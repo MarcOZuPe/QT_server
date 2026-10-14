@@ -12,6 +12,8 @@ Server::Server(QWidget *parent)
     initServer();
     //conexiones
     connect(ui->btn_close,&QAbstractButton::clicked,this,&QWidget::close);
+    //Enviar un mensaje aleatorio
+    connect(serverSocket,&QTcpServer::newConnection,this,&Server::sendRandomMessage);
 }
 
 Server::~Server()
