@@ -23,6 +23,19 @@ Server::~Server()
 
 void Server::initServer()
 {
+    //crear los mensajes aleatorios
+    for (int i = 0 ;i < 100 ; i++){
+        randomMessages<<"Mensaje aleatorio" + QString :: number(i+1);
+    }
+    //arrancar el socket
+    if (!serverSocket->listen()){
+        qDebug() << "Error en el servidor:"+ serverSocket ->errorString();
+        return;
+    }
+    //obtener los datos del servidor
+    int puerto = serverSocket->serverPort();
+    QString port = QString :: number(puerto);
+    qDebug()<<"port : "<< port ;
 
 }
 
