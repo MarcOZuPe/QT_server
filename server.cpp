@@ -36,7 +36,16 @@ void Server::initServer()
     int puerto = serverSocket->serverPort();
     QString port = QString :: number(puerto);
     qDebug()<<"port : "<< port ;
-
+    QString ip ;
+    //listar las IPs
+    QList<QHostAddress> ipList = QNetworkInterface ::allAddresses();
+    for (int i = 0 ; i < ipList.size();++i){
+        if (ipList.at(i) != QHostAddress::LocalHost && ipList.at(i).toIPv4Address()){
+            ip = ipList.at(i).toString();
+            break;
+        }
+    }
+    qDebug()<<ip;
 }
 
 void Server::sendRandomMessage()
