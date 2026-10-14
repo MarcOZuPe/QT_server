@@ -12,3 +12,13 @@ Server::~Server()
 {
     delete ui;
 }
+
+void Server::initServer()
+{
+
+}
+
+void Server::sendRandomMessage()
+{
+
+}
