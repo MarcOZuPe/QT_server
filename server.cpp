@@ -45,10 +45,28 @@ void Server::initServer()
             break;
         }
     }
-    qDebug()<<ip;
+    QString info = "IP:" + ip + ", port :" + port ;
+    qDebug()<<info;
+    ui->lbl_ip_port->setText(info);
 }
 
 void Server::sendRandomMessage()
 {
-
+    //seleccionamos un mensaje alaetorio
+    QString rndMessage = randomMessages [QRandomGenerator::global()->bounded(randomMessages.size())];
+    ui->lbl_message->setText(rndMessage);
+    //Preparar el mensaje para enviarse a traves de la red
+    QByteArray qByteArray ;
+    //canal
+    QDataStream qDataStream (&qByteArray,QIODevice::WriteOnly);
+    //insertar el mensaje en el stream
+    qDataStream<< rndMessage ;
+    //socket client
+    QTcpSocket *clientConnection = serverSocket->nextPendingConnection();
+    //cuando el cliente termina la transaccion se elimina
+    connect(clientConnection,&QAbstractSocket::disconnected,clientConnection,&QObject::deleteLater);
+    //enviar mensaje
+    clientConnection->write(qByteArray);
+    //termina el envio
+    clientConnection->disconnectFromHost();
 }
